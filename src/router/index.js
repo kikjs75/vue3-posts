@@ -5,6 +5,7 @@ import PostCreateView from '@/posts/PostCreateView.vue';
 import PostDetailView from '@/posts/PostDetailView.vue';
 import PostEditView from '@/posts/PostEditView.vue';
 import PostListView from '@/posts/PostListView.vue';
+import NotFoundView from '@/views/NotFoundView.vue';
 
 const routes = [
 	{
@@ -37,6 +38,17 @@ const routes = [
 		name: 'PostEdit',
 		component: PostEditView,
 	},
+	{
+		// will mathch everything and put it under `$route.params.pathMatch`
+		path: '/:pathMatch(.*)*',
+		name: 'NotFound',
+		component: NotFoundView,
+	},
+	// {
+	// 	// will mathch anything starting with `/user~` and put it under `$route.params.after
+	//	// 특정 문자열의 정규식.
+	// 	path: '/user-:afterUser(.*)', component: UserGeneric
+	// },
 ];
 
 const router = createRouter({
