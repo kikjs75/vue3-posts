@@ -40,15 +40,11 @@ import { useRoute, useRouter } from 'vue-router';
 import { getPostById } from '@/api/posts';
 import { reactive, ref } from 'vue';
 
-// const route = useRoute();
+const route = useRoute();
 const router = useRouter();
 
-const props = defineProps({
-	id: String,
-});
-
-// const id = route.params.id;
-// console.log('post: ', getPostById(id));
+const id = route.params.id;
+console.log('post: ', getPostById(id));
 
 /*
 1) ref : 원본 데이터와 연결되어 있어서 반응형. 실행 중 변경 가능.
@@ -62,7 +58,7 @@ const props = defineProps({
 // 1) ref(전개구문 사용해서 객체 복사. 반응형 활성화(실행 중 변경 가능))
 const form = ref({});
 const fetechPost = () => {
-	const data = getPostById(props.id);
+	const data = getPostById(id);
 	form.value = { ...data };
 };
 fetechPost();
@@ -94,7 +90,7 @@ const goListPage = () => {
 const goEditPage = () => {
 	router.push({
 		name: 'PostEdit',
-		params: { id: props.id },
+		params: { id: route.params.id },
 	});
 };
 </script>
