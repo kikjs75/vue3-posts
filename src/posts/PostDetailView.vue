@@ -8,9 +8,9 @@
 		<p>hash: {{ $route.hash }}</p> -->
 		<!-- http://localhost:3000/posts/dadf1?searchText=111#hashValue -->
 
-		<h2>제목</h2>
-		<p>내용</p>
-		<p class="text-muted">2026-01-01</p>
+		<h2>{{ form.title }}</h2>
+		<p>{{ form.content }}</p>
+		<p class="text-muted">{{ form.createdAt }}</p>
 		<hr class="my-4" />
 		<div class="row g-2">
 			<div class="col-auto">
@@ -37,9 +37,49 @@
 
 <script setup>
 import { useRoute, useRouter } from 'vue-router';
+import { getPostById } from '@/api/posts';
+import { reactive, ref } from 'vue';
 
 const route = useRoute();
 const router = useRouter();
+
+const id = route.params.id;
+console.log('post: ', getPostById(id));
+
+/*
+1) ref : 원본 데이터와 연결되어 있어서 반응형. 실행 중 변경 가능.
+장점) 객체 할당 가능, 일관성
+단점) form.value.title, form.value.content, form.value.createdAt
+2) reactive : 원본 데이터와 별개 영역. 반응형 아님. 실행 중 변경 불가능.
+장점) form.title, form.content, form.createdAt
+단점) 객체 할당 불가능, 비일관성
+*/
+
+// 1) ref(전개구문 사용해서 객체 복사. 반응형 활성화(실행 중 변경 가능))
+const form = ref({});
+const fetechPost = () => {
+	const data = getPostById(id);
+	form.value = { ...data };
+};
+fetechPost();
+
+// 2) active(전개구문 미사용. 개별 복사. 반응형 비활성화(실행 중 변경 불가능))
+// let form = reactive({});
+// const fetechPost = () => {
+// 	const data = getPostById(id);
+// 	form = { ...data };
+// };
+// fetechPost();
+
+// 3) active(변경 가능, 하나씩 설정. 반응형 활성화(실행 중 변경 가능))
+// let form = reactive({});
+// const fetechPost = () => {
+// 	const data = getPostById(id);
+// 	form.title = data.title;
+// 	form.content = data.content;
+// 	form.createdAt = data.createdAt;
+// };
+// fetechPost();
 
 const goListPage = () => {
 	router.push({
