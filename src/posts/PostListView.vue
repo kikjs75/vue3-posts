@@ -13,7 +13,7 @@
 			</div>
 		</div>
 		<hr class="my-4" />
-		<PostDetailView id="1"></PostDetailView>
+		<PostDetailView :id="2"></PostDetailView>
 	</div>
 </template>
 
