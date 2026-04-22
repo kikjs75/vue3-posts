@@ -29,7 +29,7 @@
 				</button>
 			</div>
 			<div class="col-auto">
-				<button class="btn btn-outline-danger">삭제</button>
+				<button class="btn btn-outline-danger" @click="remove">삭제</button>
 			</div>
 		</div>
 	</div>
@@ -37,7 +37,7 @@
 
 <script setup>
 import { useRoute, useRouter } from 'vue-router';
-import { getPostById } from '@/api/posts';
+import { getPostById, deletePost } from '@/api/posts';
 import { reactive, ref } from 'vue';
 
 // const route = useRoute();
@@ -60,11 +60,41 @@ const props = defineProps({
 */
 
 // 1) ref(전개구문 사용해서 객체 복사. 반응형 활성화(실행 중 변경 가능))
+// const form = ref({});
+// const fetechPost = () => {
+// 	const data = getPostById(props.id);
+// 	form.value = { ...data };
+// };
+// fetechPost();
+
+// const form = ref({});
+// const fetechPost = async () => {
+// 	const { data } = await getPostById(props.id);
+// 	form.value = { ...data };
+// };
+// fetechPost();
+
 const form = ref({});
-const fetechPost = () => {
-	const data = getPostById(props.id);
-	form.value = { ...data };
+const fetechPost = async () => {
+	try {
+		const { data } = await getPostById(props.id);
+		setForm(data);
+	} catch (error) {
+		console.log(error);
+	}
 };
+const setForm = ({ title, content, createdAt }) => {
+	form.value.title = title;
+	form.value.content = content;
+	form.value.createdAt = createdAt;
+};
+
+// const setForm = data => {
+// 	form.value.title = data.title;
+// 	form.value.content = data.content;
+// 	form.value.createdAt = data.createdAt;
+// };
+
 fetechPost();
 
 // 2) active(전개구문 미사용. 개별 복사. 반응형 비활성화(실행 중 변경 불가능))
@@ -96,6 +126,29 @@ const goEditPage = () => {
 		name: 'PostEdit',
 		params: { id: props.id },
 	});
+};
+
+// const remove = async () => {
+// 	try {
+// 		if (confirm('삭제 하시겠습니까?')) {
+// 			await deletePost(props.id);
+// 			router.push({ name: 'PostList' });
+// 		}
+// 	} catch (error) {
+// 		console.log(error);
+// 	}
+// };
+
+const remove = async () => {
+	try {
+		if (confirm('삭제 하시겠습니까?') === false) {
+			return;
+		}
+		await deletePost(props.id);
+		router.push({ name: 'PostList' });
+	} catch (error) {
+		console.log(error);
+	}
 };
 </script>
 

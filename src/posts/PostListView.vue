@@ -30,10 +30,55 @@ import AppCard from '@/components/AppCard.vue';
 const router = useRouter();
 const posts = ref([]);
 
-const fetchPosts = () => {
-	posts.value = getPosts();
+// const fetchPosts = () => {
+// 	posts.value = getPosts();
+// };
+// fetchPosts();
+
+// const fetchPosts = () => {
+// 	const response = getPosts();
+// 	console.log('posts: ', response);
+// };
+// fetchPosts();
+
+// const fetchPosts = () => {
+// 	getPosts().then(response => {
+// 		console.log('response: ', response);
+// 	});
+// };
+// fetchPosts();
+
+// const fetchPosts = () => {
+// 	getPosts()
+// 		.then(response => {
+// 			console.log('response: ', response);
+// 		})
+// 		.catch(error => {
+// 			console.log('eror: ', error);
+// 		});
+// };
+// fetchPosts();
+
+// const fetchPosts = async () => {
+// 	const response = await getPosts();
+// 	console.dir(response); // console.dir : 객체(object) 출력 시 유용.
+// };
+// fetchPosts();
+
+const fetchPosts = async () => {
+	try {
+		const { data } = await getPosts(); // 구조분해로 받는다.
+		posts.value = data;
+	} catch (error) {
+		console.log(error);
+	}
 };
 fetchPosts();
+
+// const fetchPosts = async () => {
+// 	({ data: posts.value } = await getPosts()); // 구조분해로 이렇게도 받을 수 있다.
+// };
+// fetchPosts();
 
 const goPage = id => {
 	// router.push('/posts/' + id);
