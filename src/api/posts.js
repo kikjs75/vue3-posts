@@ -1,31 +1,36 @@
-import axios from 'axios';
-
-// axios
-const posts = [
-	{ id: 1, title: '제목1', content: '내용1', createdAt: '2026-01-01' },
-	{ id: 2, title: '제목2', content: '내용2', createdAt: '2026-02-02' },
-	{ id: 3, title: '제목3', content: '내용3', createdAt: '2026-03-03' },
-	{ id: 4, title: '제목4', content: '내용4', createdAt: '2026-04-04' },
-	{ id: 5, title: '제목5', content: '내용5', createdAt: '2026-05-05' },
-];
+import { posts } from '.';
 
 export function getPosts(params) {
-	return axios.get('http://localhost:5001/posts', { params });
+	return posts.get('/', { params });
 }
 
+// export function getPostById(id) {
+// 	return posts.get(`/${id}`);
+// 	// return posts.find(item => item.id === id);
+// }
+
 export function getPostById(id) {
-	return axios.get(`http://localhost:5001/posts/${id}`);
-	// return posts.find(item => item.id === id);
+	// 안 된다 : 숫자이기 때문
+	// return posts.get(id);
+
+	// 된다 : 문자이기 때문
+	// console.log('id(type): ', typeof id);
+	// return posts.get(id + '');
+
+	// 된다 : 관련된 곳에서 숫자에서 문자로 바꾸어서 이제는 그냥 넘겨도 된다.
+	return posts.get(id);
 }
 
 export function createPost(data) {
-	return axios.post('http://localhost:5001/posts', data);
+	return posts.post('/', data);
 }
 
 export function updatePost(id, data) {
-	return axios.put(`http://localhost:5001/posts/${id}`, data);
+	// return posts.put(`/${id}`, data);
+
+	return posts.put(id, data);
 }
 
 export function deletePost(id) {
-	return axios.delete(`http://localhost:5001/posts/${id}`);
+	return posts.delete(`/${id}`);
 }

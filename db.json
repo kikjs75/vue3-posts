@@ -37,10 +37,10 @@
       "createdAt": "2026-01-06"
     },
     {
-      "id": 7,
-      "title": "제목7",
-      "content": "내용7",
-      "createdAt": "2026-01-07"
+      "title": "제목7@",
+      "content": "내용7@",
+      "createdAt": "2026-04-22",
+      "id": 7
     },
     {
       "id": 8,
@@ -49,16 +49,10 @@
       "createdAt": "2026-01-08"
     },
     {
-      "id": 9,
-      "title": "제목9",
-      "content": "내용9",
-      "createdAt": "2026-01-09"
-    },
-    {
-      "title": "데이터제목1",
-      "content": "데이터내용1",
+      "title": "제목9@",
+      "content": "내용9@",
       "createdAt": "2026-04-22",
-      "id": 10
+      "id": 9
     }
   ],
   "comments": [
