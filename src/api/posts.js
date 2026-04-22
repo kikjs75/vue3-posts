@@ -28,8 +28,13 @@ export function createPost(data) {
 	return posts.post('/', data);
 }
 
+// export function updatePost(id, data) {
+// 	return posts.put(`/${id}`, data);
+// 	// return posts.put(id, data);
+// }
+
 export function updatePost(id, data) {
-	return posts.put(`/${id}`, data);
+	return posts.patch(`/${id}`, data); // patch : 일부 수정.
 	// return posts.put(id, data);
 }
 

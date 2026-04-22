@@ -59,7 +59,7 @@ const edit = async () => {
 	try {
 		await updatePost(id, {
 			...form.value,
-			createdAt: new Date().toISOString().slice(0, 10),
+			// createdAt: new Date().toISOString().slice(0, 10),
 		});
 		router.push({ name: 'PostDetail', params: { id: id } });
 	} catch (error) {

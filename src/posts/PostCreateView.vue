@@ -103,7 +103,7 @@ const save = () => {
 		createPost({
 			...form.value,
 			// createdAt: Date.now(),
-			createdAt: new Date().toISOString().slice(0, 10),
+			// createdAt: new Date().toISOString().slice(0, 10),
 		});
 		router.push({ name: 'PostList' });
 	} catch (error) {
