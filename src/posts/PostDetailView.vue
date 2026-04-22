@@ -44,7 +44,7 @@ import { reactive, ref } from 'vue';
 const router = useRouter();
 
 const props = defineProps({
-	id: String,
+	id: [String, Number],
 });
 
 // const id = route.params.id;
