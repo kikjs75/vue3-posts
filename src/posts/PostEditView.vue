@@ -18,6 +18,11 @@
 				<button class="btn btn-primary">수정</button>
 			</template>
 		</PostForm>
+		<AppAlert
+			:show="shwoAlert"
+			:message="alertMessage"
+			:type="alertType"
+		></AppAlert>
 	</div>
 </template>
 <script setup>
@@ -25,6 +30,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { getPostById, updatePost } from '@/api/posts';
 import { ref } from 'vue';
 import PostForm from '@/components/posts/PostForm.vue';
+import AppAlert from '@/components/AppAlert.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -47,6 +53,7 @@ const fetechPost = async () => {
 		setForm(data);
 	} catch (error) {
 		console.log(error);
+		vAlert(error);
 	}
 };
 const setForm = ({ title, content }) => {
@@ -61,10 +68,24 @@ const edit = async () => {
 			...form.value,
 			// createdAt: new Date().toISOString().slice(0, 10),
 		});
-		router.push({ name: 'PostDetail', params: { id: id } });
+		// router.push({ name: 'PostDetail', params: { id: id } });
+		vAlert('수정이 완료되었습니다!', 'success');
 	} catch (error) {
 		console.log(error);
+		vAlert('네트워크 오류!!');
 	}
+};
+
+const shwoAlert = ref(false);
+const alertMessage = ref('');
+const alertType = ref('');
+const vAlert = (message, type = 'error') => {
+	shwoAlert.value = true;
+	alertMessage.value = message;
+	alertType.value = type;
+	setTimeout(() => {
+		shwoAlert.value = false;
+	}, 2000);
 };
 </script>
 
