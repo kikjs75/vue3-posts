@@ -4,9 +4,13 @@ import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router';
 // import globalComponents from '@/plugins/global-components'; // unplugin-vue-components/vite 사용해서 필요 없음.
+// import focus from '@/directives/focus'; // 여기서 개별로 여러 개 설정할 수 도 있고 plugin 으로 하나로 묶어서 설정하고 여기에는 플러그인만 설정 가능.
+import globalDirectives from '@/plugins/global-directives';
 
 const app = createApp(App);
 // app.use(globalComponents); // unplugin-vue-components/vite 사용해서 필요 없음.
+// app.directive('focus', focus);
+app.use(globalDirectives);
 app.use(router);
 app.mount('#app');
 
