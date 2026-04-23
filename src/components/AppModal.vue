@@ -45,7 +45,7 @@ defineProps({
 	title: String,
 });
 
-defineEmits(['close', 'update:modelValue']);
+defineEmits(['update:modelValue']);
 </script>
 
 <style scoped>
