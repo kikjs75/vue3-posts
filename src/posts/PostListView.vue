@@ -19,11 +19,11 @@
 			</template>
 		</AppGrid>
 
-		<AppPagination2
+		<AppPagination
 			:current-page="params._page"
 			:page-count="pageCount"
 			@page="page => (params._page = page)"
-		></AppPagination2>
+		></AppPagination>
 
 		<Teleport to="#modal">
 			<PostModal
