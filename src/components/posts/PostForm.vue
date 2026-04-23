@@ -6,7 +6,7 @@
 			<!-- v-focus : vue3 custom directive. autofocus 와 기본 동작 같음. 그러나 autofocus 다르게 동적으로 hide/show 하면 됨. -->
 			<input
 				v-focus
-				v-color="'red'"
+				v-color="'blue'"
 				:value="title"
 				@input="$emit('update:title', $event.target.value)"
 				type="text"
