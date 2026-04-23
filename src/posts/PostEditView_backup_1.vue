@@ -18,6 +18,11 @@
 				<button class="btn btn-primary">수정</button>
 			</template>
 		</PostForm>
+		<!-- <AppAlert
+			:show="shwoAlert"
+			:message="alertMessage"
+			:type="alertType"
+		></AppAlert> -->
 		<AppAlert :items="alerts" />
 	</div>
 </template>
@@ -49,6 +54,8 @@ const fetechPost = async () => {
 		setForm(data);
 	} catch (error) {
 		console.log(error);
+		// vAlert(error);
+		// vAlert('네트워크 실패!!!');
 		vAlert(error.message);
 	}
 };
@@ -64,14 +71,30 @@ const edit = async () => {
 			...form.value,
 			// createdAt: new Date().toISOString().slice(0, 10),
 		});
-		vAlert('수정이 완료되었습니다!', 'success');
+		// router.push({ name: 'PostDetail', params: { id: id } });
+		// vAlert('수정이 완료되었습니다!', 'success');
+		vAlert('수정이 완료되었습니다!!!', 'success');
 	} catch (error) {
 		console.log(error);
+		// vAlert('네트워크 오류!!');
+		// vAlert('수정실패!!!');
 		vAlert(error.message);
 	}
 };
 
+// const shwoAlert = ref(false);
+// const alertMessage = ref('');
+// const alertType = ref('');
 const alerts = ref([]);
+
+// const vAlert = (message, type = 'error') => {
+// 	shwoAlert.value = true;
+// 	alertMessage.value = message;
+// 	alertType.value = type;
+// 	setTimeout(() => {
+// 		shwoAlert.value = false;
+// 	}, 2000);
+// };
 
 const vAlert = (message, type = 'error') => {
 	alerts.value.push({ message, type });
