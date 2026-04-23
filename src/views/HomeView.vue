@@ -23,9 +23,9 @@
 			<AppCard>{{ item }}</AppCard>
 		</AppGrid>
 
-		<hr class="my-4" />
+		<!-- <hr class="my-4" />
 		<h2>{{ $person.name }}</h2>
-		<button class="btn btn-primary" @click="person.say">click person</button>
+		<button class="btn btn-primary" @click="person.say">click person</button> -->
 
 		<!-- 
 		<hr class="my-4" />
@@ -40,7 +40,7 @@
 <script>
 export default {
 	created() {
-		console.log('HomeView(person.name)', this.$person.name);
+		// console.log('HomeView(person.name)', this.$person.name);
 		// this.$person.say();
 	},
 };
@@ -50,9 +50,6 @@ export default {
 import router from '@/router';
 import { ref, inject } from 'vue';
 import { useRoute } from 'vue-router';
-import AppCard from '@/components/AppCard.vue';
-import AppGrid from '@/components/AppGrid.vue';
-import AppGrid2 from '@/components/AppGrid2.vue';
 
 const route = useRoute();
 console.log('route.path: ', route.path);
@@ -63,8 +60,8 @@ const goAboutPage = () => {
 
 const items = ref(['사과', '딸기', '포도', '바나나']);
 
-const person = inject('person');
-console.log('inject - person.name: ', person.name);
+// const person = inject('person');
+// console.log('inject - person.name: ', person.name);
 </script>
 
 <style lang="scss" scoped></style>

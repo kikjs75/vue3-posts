@@ -24,7 +24,7 @@
 </template>
 
 <script setup>
-import AppModal from '../AppModal.vue'; // 이걸 선언 안 하면 부모 화면에 표시.
+import AppModal from '../app/AppModal.vue'; // 이걸 선언 안 하면 부모 화면에 표시.
 import { computed } from 'vue';
 
 const props = defineProps({
