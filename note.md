@@ -1,3 +1,9 @@
+# Day.js
+## URL
+https://day.js.org/en/
+## install
+npm i dayjs
+
 # Directives Hooks
 디렉티브 정의 객체는 다음과 같은 여러 훅을 사용할 수 있습니다.(모든 훅은 필수가 아닌 선택사항)
 `javascript
