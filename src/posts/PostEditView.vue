@@ -1,7 +1,12 @@
 <template>
-	<div>
+	<AppLoading v-if="loading" />
+
+	<AppError v-else-if="error" :message="error.message" />
+
+	<div v-else>
 		<h2>게시글 수정</h2>
 		<hr class="my-4" />
+		<AppError v-if="editError" :message="editError.message" />
 		<PostForm
 			v-model:title="form.title"
 			v-model:content="form.content"
@@ -15,7 +20,17 @@
 				>
 					취소
 				</button>
-				<button class="btn btn-primary">수정</button>
+
+				<button class="btn btn-primary" :disabled="editLoading">
+					<template v-if="editLoading">
+						<span
+							class="spinner-grow spinner-grow-sm"
+							aria-hidden="true"
+						></span>
+						<span class="visually-hidden" role="status">Loading...</span>
+					</template>
+					<template v-else> 수정 </template>
+				</button>
 			</template>
 		</PostForm>
 	</div>
@@ -36,6 +51,8 @@ const form = ref({
 	title: null,
 	content: null,
 });
+const loading = ref(false);
+const error = ref(null);
 
 const goDetailPage = () => {
 	router.push({
@@ -46,11 +63,15 @@ const goDetailPage = () => {
 
 const fetechPost = async () => {
 	try {
+		loading.value = true;
 		const { data } = await getPostById(id);
 		setForm(data);
-	} catch (error) {
-		console.log(error);
-		vError(error.message);
+	} catch (err) {
+		// console.log(err);
+		vError(err.message);
+		error.value = err;
+	} finally {
+		loading.value = false;
 	}
 };
 const setForm = ({ title, content }) => {
@@ -59,8 +80,11 @@ const setForm = ({ title, content }) => {
 };
 fetechPost();
 
+const editLoading = ref(false);
+const editError = ref(null);
 const edit = async () => {
 	try {
+		editLoading.value = true;
 		await updatePost(id, {
 			...form.value,
 			// createdAt: new Date().toISOString().slice(0, 10),
@@ -72,9 +96,12 @@ const edit = async () => {
 			},
 		});
 		vSuccess('수정이 완료되었습니다!');
-	} catch (error) {
-		console.log(error);
-		vError(error.message);
+	} catch (err) {
+		// console.log(err);
+		vError(err.message);
+		editError.value = err;
+	} finally {
+		editLoading.value = false;
 	}
 };
 </script>

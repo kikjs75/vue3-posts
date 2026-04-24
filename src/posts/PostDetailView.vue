@@ -1,5 +1,9 @@
 <template>
-	<div>
+	<AppLoading v-if="loading" />
+
+	<AppError v-else-if="error" :message="error.message" />
+
+	<div v-else>
 		<!-- <h2>게시글 상세</h2>
 		<hr class="my-4" />
 		<p>params: {{ $route.params }}</p>
@@ -14,6 +18,7 @@
 			{{ $dayjs(form.createdAt).format('YYYY. MM. DD HH:mm:ss') }}
 		</p>
 		<hr class="my-4" />
+		<AppError v-if="removeError" :message="removeError.message" />
 		<div class="row g-2">
 			<div class="col-auto">
 				<button class="btn btn-outline-dark">이전글</button>
@@ -31,7 +36,20 @@
 				</button>
 			</div>
 			<div class="col-auto">
-				<button class="btn btn-outline-danger" @click="remove">삭제</button>
+				<button
+					class="btn btn-outline-danger"
+					@click="remove"
+					:disabled="removeLoading"
+				>
+					<template v-if="removeLoading">
+						<span
+							class="spinner-grow spinner-grow-sm"
+							aria-hidden="true"
+						></span>
+						<span class="visually-hidden" role="status">Loading...</span>
+					</template>
+					<template v-else> 삭제 </template>
+				</button>
 			</div>
 		</div>
 	</div>
@@ -41,6 +59,7 @@
 import { useRoute, useRouter } from 'vue-router';
 import { getPostById, deletePost } from '@/api/posts';
 import { reactive, ref } from 'vue';
+import { useAlert } from '@/composables/alert';
 
 // const route = useRoute();
 const router = useRouter();
@@ -48,6 +67,11 @@ const router = useRouter();
 const props = defineProps({
 	id: [String, Number],
 });
+
+const { vSuccess, vError } = useAlert();
+
+const loading = ref(false);
+const error = ref(null);
 
 // const id = route.params.id;
 // console.log('post: ', getPostById(id));
@@ -79,10 +103,14 @@ const props = defineProps({
 const form = ref({});
 const fetechPost = async () => {
 	try {
+		loading.value = true;
 		const { data } = await getPostById(props.id);
 		setForm(data);
-	} catch (error) {
-		console.log(error);
+	} catch (err) {
+		// console.log(err);
+		error.value = err;
+	} finally {
+		loading.value = false;
 	}
 };
 const setForm = ({ title, content, createdAt }) => {
@@ -141,15 +169,23 @@ const goEditPage = () => {
 // 	}
 // };
 
+const removeLoading = ref(false);
+const removeError = ref(null);
 const remove = async () => {
 	try {
 		if (confirm('삭제 하시겠습니까?') === false) {
 			return;
 		}
+		removeLoading.value = true;
 		await deletePost(props.id);
 		router.push({ name: 'PostList' });
-	} catch (error) {
-		console.log(error);
+		vSuccess('삭제 되었습니다!');
+	} catch (err) {
+		// console.log(err);
+		vError(err.message);
+		removeError.value = err;
+	} finally {
+		removeLoading.value = false;
 	}
 };
 </script>
