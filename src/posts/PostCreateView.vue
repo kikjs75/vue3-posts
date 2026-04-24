@@ -15,6 +15,7 @@
 				<button class="btn btn-primary">저장</button>
 			</template>
 		</PostForm>
+		<AppAlert :items="alerts" />
 	</div>
 </template>
 
@@ -107,11 +108,23 @@ const save = () => {
 			createdAt: Date.now(),
 			// createdAt: new Date().toISOString().slice(0, 10),
 		});
-		router.push({ name: 'PostList' });
+		// router.push({ name: 'PostList' });
+		vSuccess('등록 완료되어습니다!');
 	} catch (error) {
 		console.log(error);
+		vError(error.message);
 	}
 };
+
+const alerts = ref([]);
+const vAlert = (message, type = 'error') => {
+	alerts.value.push({ message, type });
+	setTimeout(() => {
+		alerts.value.shift();
+	}, 2000);
+};
+const vSuccess = message => vAlert(message, 'success');
+const vError = message => vAlert(message, 'error');
 </script>
 
 <style lang="scss" scoped></style>

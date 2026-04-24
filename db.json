@@ -37,10 +37,16 @@
       "id": 6
     },
     {
-      "title": "제목7",
-      "content": "내용7",
+      "title": "제목7@",
+      "content": "내용7@",
       "createdAt": 1776986615812,
       "id": 7
+    },
+    {
+      "title": "제목8",
+      "content": "내용8",
+      "createdAt": 1776991125235,
+      "id": 8
     }
   ],
   "comments": [

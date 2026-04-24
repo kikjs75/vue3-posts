@@ -48,7 +48,7 @@ const fetechPost = async () => {
 		setForm(data);
 	} catch (error) {
 		console.log(error);
-		vAlert(error.message);
+		vError(error.message);
 	}
 };
 const setForm = ({ title, content }) => {
@@ -63,21 +63,22 @@ const edit = async () => {
 			...form.value,
 			// createdAt: new Date().toISOString().slice(0, 10),
 		});
-		vAlert('수정이 완료되었습니다!', 'success');
+		vSuccess('수정이 완료되었습니다!');
 	} catch (error) {
 		console.log(error);
-		vAlert(error.message);
+		vError(error.message);
 	}
 };
 
 const alerts = ref([]);
-
 const vAlert = (message, type = 'error') => {
 	alerts.value.push({ message, type });
 	setTimeout(() => {
 		alerts.value.shift();
 	}, 2000);
 };
+const vSuccess = message => vAlert(message, 'success');
+const vError = message => vAlert(message, 'error');
 </script>
 
 <style lang="scss" scoped></style>
