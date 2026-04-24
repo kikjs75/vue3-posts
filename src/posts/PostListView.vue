@@ -21,6 +21,7 @@
 						:created-at="item.createdAt"
 						@click="goPage(item.id)"
 						@modal="openModal(item)"
+						@preview="selectPreview(item.id)"
 					></PostItem>
 				</template>
 			</AppGrid>
@@ -41,10 +42,11 @@
 			/>
 		</Teleport>
 
-		<template v-if="posts && posts.length > 0">
+		<template v-if="previewId">
 			<hr class="my-4" />
 			<AppCard>
-				<PostDetailView :id="posts[0].id"></PostDetailView>
+				<!-- <PostDetailView :id="previewId" :key="previewId"></PostDetailView> -->
+				<PostDetailView :id="previewId"></PostDetailView>
 			</AppCard>
 		</template>
 		<!-- <Teleport to="#modal">
@@ -54,18 +56,15 @@
 </template>
 
 <script setup>
-import { getPosts } from '@/api/posts';
 import PostItem from '@/components/posts/PostItem.vue';
-import { computed, ref, watchEffect } from 'vue';
+import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import PostDetailView from './PostDetailView.vue';
 import PostFilter from '@/components/posts/PostFilter.vue';
 import PostModal from '@/components/posts/PostModal.vue';
+import { useAxios } from '@/hooks/useAxios';
 
 const router = useRouter();
-const posts = ref([]);
-const loading = ref(false);
-const error = ref(null);
 const params = ref({
 	_sort: 'createdAt',
 	_order: 'desc',
@@ -73,26 +72,38 @@ const params = ref({
 	_limit: 3,
 	title_like: '',
 });
-const totalCount = ref(0);
+
+const previewId = ref(null);
+const selectPreview = id => (previewId.value = id);
+
+// 1) params 반응형 객체 : params 값 변하면 다시 실행.
+const {
+	response,
+	data: posts,
+	loading,
+	error,
+} = useAxios('/posts', { params });
+
+// 2) params 객체 : 처음 한 번만 되므로 검색, 페이징 등 안돼.
+// const {
+// 	response,
+// 	data: posts,
+// 	loading,
+// 	error,
+// } = useAxios('/posts', {
+// 	params: {
+// 		_sort: 'createdAt',
+// 		_order: 'desc',
+// 		_page: 1,
+// 		_limit: 3,
+// 		title_like: '',
+// 	},
+// });
+
+const totalCount = computed(() => response.value.headers['x-total-count']);
 const pageCount = computed(() =>
 	Math.ceil(totalCount.value / params.value._limit),
 );
-
-const fetchPosts = async () => {
-	try {
-		loading.value = true;
-		const { data, headers } = await getPosts(params.value); // 구조분해로 받는다.
-		posts.value = data;
-		totalCount.value = headers['x-total-count']; // 소문자.
-	} catch (err) {
-		// console.log(err);
-		error.value = err;
-	} finally {
-		loading.value = false;
-	}
-};
-// fetchPosts();
-watchEffect(fetchPosts); // Watching 함수의 반응형 데이터가 바뀌어서 다시 실행된다.
 
 const goPage = id => {
 	router.push({

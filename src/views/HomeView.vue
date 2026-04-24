@@ -23,6 +23,9 @@
 			<AppCard>{{ item }}</AppCard>
 		</AppGrid>
 
+		<h2>{{ position }}</h2>
+		<h2>x:{{ x }}, y:{{ y }}</h2>
+
 		<!-- <hr class="my-4" />
 		<h2>{{ $person.name }}</h2>
 		<button class="btn btn-primary" @click="person.say">click person</button> -->
@@ -48,7 +51,8 @@ export default {
 
 <script setup>
 import router from '@/router';
-import { ref, inject } from 'vue';
+// import { post } from 'node_modules/axios/index.cjs';
+import { ref, inject, reactive, toRef, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
@@ -62,6 +66,25 @@ const items = ref(['사과', '딸기', '포도', '바나나']);
 
 // const person = inject('person');
 // console.log('inject - person.name: ', person.name);
+
+const position = reactive({
+	x: 100,
+	y: 1000,
+});
+
+// const x = position.x;
+// const { x, y } = position; // 위의 postion 과 다르고 참조도 아니다.
+
+// ref : 위의 postion 과 다르고 참조이기는 하지만 서로 동기화는 안 되어져 있다.
+// const x = ref(position.x);
+// const y = ref(position.y);
+// console.log('x typeof : ', typeof x.value);
+// console.log('y typeof : ', typeof y.value);
+
+// 기존 반응용 객체에서(postion) 에서 뽑아낼 때 동기화 가능하게 하는 게 toRef(), toRefs() 이다.
+// const x = toRef(position, 'x');
+// const y = toRef(position, 'y');
+const { x, y } = toRefs(position);
 </script>
 
 <style lang="scss" scoped></style>
