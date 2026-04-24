@@ -76,6 +76,9 @@ import { createPost } from '@/api/posts';
 import PostForm from '@/components/posts/PostForm.vue';
 import PostForm2 from '@/components/posts/PostForm2.vue';
 import PostForm3 from '@/components/posts/PostForm3.vue';
+import { useAlert } from '@/composables/alert';
+
+const { alerts, vAlert, vSuccess, vError } = useAlert();
 
 const form = ref({
 	title: null,
@@ -101,9 +104,9 @@ const visibleForm = ref(true);
 // 	}
 // };
 
-const save = () => {
+const save = async () => {
 	try {
-		createPost({
+		await createPost({
 			...form.value,
 			createdAt: Date.now(),
 			// createdAt: new Date().toISOString().slice(0, 10),
@@ -115,16 +118,6 @@ const save = () => {
 		vError(error.message);
 	}
 };
-
-const alerts = ref([]);
-const vAlert = (message, type = 'error') => {
-	alerts.value.push({ message, type });
-	setTimeout(() => {
-		alerts.value.shift();
-	}, 2000);
-};
-const vSuccess = message => vAlert(message, 'success');
-const vError = message => vAlert(message, 'error');
 </script>
 
 <style lang="scss" scoped></style>
