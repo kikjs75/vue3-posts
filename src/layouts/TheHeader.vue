@@ -36,6 +36,11 @@
 							>Nested</RouterLink
 						>
 					</li>
+					<li class="nav-item">
+						<RouterLink class="nav-link" active-class="active" to="/my"
+							>MyPage</RouterLink
+						>
+					</li>
 					<!-- 전체페이지 리로딩
 					<li class="nav-item">
 						<a class="nav-link active" aria-current="page" href="/">Home</a>

@@ -18,12 +18,17 @@
 </template>
 
 <script setup>
-// 2) Alert 여러 번 받는다
-defineProps({
-	items: {
-		type: Array,
-	},
-});
+import { useAlert } from '@/composables/alert';
+
+// 2) Alert 여러 번 받는다. App.vue 에서 props 로 전달 되는 것은 깊이가 깊어지면 문제가 될 수 있다. 그래서 직접 받아서 처리한다.
+// defineProps({
+// 	items: {
+// 		type: Array,
+// 	},
+// });
+
+// 3) pinia : props 아닌 직접 가져온다.
+const { alerts: items } = useAlert();
 
 // 반복문에서 호출시에는 computed 사용 못함. 그래서 함수 사용.
 // 중괄호 사용 안해서 return 문 불필요.
