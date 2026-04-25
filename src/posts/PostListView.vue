@@ -70,7 +70,7 @@ const params = ref({
 	_sort: 'createdAt',
 	_order: 'desc',
 	_page: 1,
-	_limit: 3,
+	_limit: 6,
 	title_like: '',
 });
 

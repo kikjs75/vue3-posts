@@ -16,9 +16,9 @@
 					@input="$emit('update:limit', Number($event.target.value))"
 					class="form-select"
 				>
-					<option value="3">3개씩 보기</option>
 					<option value="6">6개씩 보기</option>
-					<option value="9">9개씩 보기</option>
+					<option value="12">12개씩 보기</option>
+					<option value="18">18개씩 보기</option>
 				</select>
 			</div>
 		</div>
