@@ -13,6 +13,10 @@
 
 		<AppError v-else-if="error" :message="error.message" />
 
+		<template v-else-if="!isExist">
+			<p class="text-center py-5 text-muted">No Results</p>
+		</template>
+
 		<template v-else>
 			<AppGrid :items="posts" :col-class="'col-6'">
 				<template v-slot="{ item }">
@@ -64,6 +68,7 @@ import PostDetailView from './PostDetailView.vue';
 import PostFilter from '@/components/posts/PostFilter.vue';
 import PostModal from '@/components/posts/PostModal.vue';
 import { useAxios } from '@/hooks/useAxios';
+// import { post } from 'axios';
 
 const router = useRouter();
 const params = ref({
@@ -84,6 +89,8 @@ const changeLimit = value => {
 	params.value._limit = value;
 	params.value._page = 1; // 현재는 마지막 페이지에서 카드 개수를 바꾸는데 3 페이지 이여서 문제였음. 그래서 1 페이지로 변경.
 };
+
+const isExist = computed(() => posts.value && posts.value.length > 0);
 
 const previewId = ref(null);
 const selectPreview = id => (previewId.value = id);
