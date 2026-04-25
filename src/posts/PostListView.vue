@@ -18,7 +18,8 @@
 		</template>
 
 		<template v-else>
-			<AppGrid :items="posts" :col-class="'col-6'">
+			<!-- <AppGrid :items="posts" col-class="col-12 col-sm-6 col-md-4 col-lg-3"> -->
+			<AppGrid :items="posts" col-class="col-12 col-md-6 col-lg-4">
 				<template v-slot="{ item }">
 					<PostItem
 						:title="item.title"
