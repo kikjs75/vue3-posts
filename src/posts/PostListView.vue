@@ -4,7 +4,8 @@
 		<hr class="my-4" />
 		<PostFilter
 			v-model:title="params.title_like"
-			v-model:limit="params._limit"
+			:limit="params._limit"
+			@update:limit="changeLimit"
 		></PostFilter>
 		<hr class="my-4" />
 
@@ -72,6 +73,17 @@ const params = ref({
 	_limit: 3,
 	title_like: '',
 });
+
+/*
+- :limit="params._limit" → 부모가 자식에게 값 전달                                                                                                                               
+- @update:limit="changeLimit" → 자식이 limit을 바꾸면 부모가 감지해서 changeLimit 실행                                                                                           
+																																																																																									
+이 두 개를 합친 단축 문법이 바로 v-model:limit="params._limit" 입니다.       
+*/
+const changeLimit = value => {
+	params.value._limit = value;
+	params.value._page = 1; // 현재는 마지막 페이지에서 카드 개수를 바꾸는데 3 페이지 이여서 문제였음. 그래서 1 페이지로 변경.
+};
 
 const previewId = ref(null);
 const selectPreview = id => (previewId.value = id);
